@@ -30,3 +30,5 @@ for gatunek in gatunki:
 dane_z_bledami = pd.read_csv("../train_data.csv")
 bledy = len(dane_z_bledami[(dane_z_bledami["Total"] <= 0) | (dane_z_bledami["Attack"] <= 0) | (dane_z_bledami["Defense"] <= 0) | (dane_z_bledami["Sp. Atk"] <= 0) | (dane_z_bledami["Sp. Def"] <= 0) | (dane_z_bledami["HP"] <= 0) | (dane_z_bledami["Speed"] <= 0)])
 plik.write("\n\n** LICZBA REKORDÓW Z BŁĘDAMI: " + str(bledy)+" **")
+
+plik.close()
