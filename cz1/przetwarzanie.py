@@ -47,7 +47,7 @@ dane_wypelnij_puste_typy.loc[dane_wypelnij_puste_typy["Speed"] <= 0, "Speed"] = 
 dane_wypelnij_puste_typy.loc[dane_wypelnij_puste_typy["Sp. Atk"] <= 0, "Sp. Atk"] = 1
 dane_wypelnij_puste_typy.loc[dane_wypelnij_puste_typy["Sp. Def"] <= 0, "Sp. Def"] = 1
 
-dane_wypelnij_puste_typy.to_csv("przetwarzanie_zamienbledne.csv")
+dane_wypelnij_puste_typy.to_csv("przetwarzanie_zamienbledne.csv", index=False)
 
 
 #sortowanie danych według numeru
@@ -77,6 +77,8 @@ dane_gen1 = dane_gen1.drop(labels=["Generation", "Sp. Atk", "Sp. Def"],axis=1)
 #przeniesienie kolumny Special w odpowiednie miejsce
 dane_gen1 = dane_gen1[["#", "Name", "Type 1", "Type 2", "Total", "HP", "Attack", "Defense", "Special", "Speed", "Legendary"]]
 dane_gen1.to_csv("gen1_data.csv", index=False)
+
+plik.close()
 
 
 	

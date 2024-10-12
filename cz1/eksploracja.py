@@ -10,4 +10,5 @@ dane.info(buf=plik)
 plik.write("\n\n"+dane.describe().to_string())
 plik.write("\n\n"+dane.describe(include=["bool"]).to_string())
 plik.write("\n\n"+dane.describe(include=["object"]).to_string())
+plik.close()
 
