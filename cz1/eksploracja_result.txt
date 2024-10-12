@@ -1,0 +1,43 @@
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 3320 entries, 0 to 3319
+Data columns (total 13 columns):
+ #   Column      Non-Null Count  Dtype 
+---  ------      --------------  ----- 
+ 0   #           3320 non-null   int64 
+ 1   Name        3320 non-null   object
+ 2   Type 1      3320 non-null   object
+ 3   Type 2      1560 non-null   object
+ 4   Total       3320 non-null   int64 
+ 5   HP          3320 non-null   int64 
+ 6   Attack      3320 non-null   int64 
+ 7   Defense     3320 non-null   int64 
+ 8   Sp. Atk     3320 non-null   int64 
+ 9   Sp. Def     3320 non-null   int64 
+ 10  Speed       3320 non-null   int64 
+ 11  Generation  3320 non-null   int64 
+ 12  Legendary   3320 non-null   bool  
+dtypes: bool(1), int64(9), object(3)
+memory usage: 314.6+ KB
+
+
+                 #        Total           HP       Attack      Defense      Sp. Atk      Sp. Def        Speed  Generation
+count  3320.000000  3320.000000  3320.000000  3320.000000  3320.000000  3320.000000  3320.000000  3320.000000      3320.0
+mean     75.819277   426.813253    65.925000    76.491867    70.749398    71.862048    69.129217    72.655723         1.0
+std      45.023818   115.545921    28.591967    31.307924    29.011751    34.865423    26.255710    30.095827         0.0
+min       1.000000   195.000000    -1.000000    -1.000000    -1.000000     5.000000    10.000000     5.000000         1.0
+25%      36.000000   325.000000    47.000000    54.000000    50.000000    46.000000    49.000000    49.000000         1.0
+50%      76.500000   436.500000    62.000000    74.000000    67.000000    65.000000    70.000000    71.000000         1.0
+75%     115.000000   500.000000    81.000000    96.000000    87.000000    94.000000    88.000000    93.000000         1.0
+max     151.000000   780.000000   255.000000   199.000000   189.000000   202.000000   137.000000   159.000000         1.0
+
+       Legendary
+count       3320
+unique         2
+top        False
+freq        3200
+
+            Name Type 1  Type 2
+count       3320   3320    1560
+unique       166     15      13
+top     Arcanine  Water  Flying
+freq          20    620     460

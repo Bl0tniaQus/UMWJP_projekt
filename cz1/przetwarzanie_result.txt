@@ -1,0 +1,7 @@
+Empty DataFrame
+Columns: [#, Name, Type 1, Total, HP, Attack, Defense, Sp. Atk, Sp. Def, Speed, Generation, Legendary]
+Index: []
+
+POZA DRUGORZĘDNYM TYPEM, KTÓRY W PRZYPADKU POKEMONÓW MOŻE BYĆ PUSTY, W ZBIORZE NIE MA INNYCH PUSTYCH DANYCH
+
+W ZBIORZE DANYCH NIE MA DUPLIKATÓW, TJ. POWTARZAJĄCYCH SIĘ REKORDÓW
