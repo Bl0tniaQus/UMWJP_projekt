@@ -21,8 +21,8 @@ for stat in stats:
 
 #wykres zależności ataku i specjalnego ataku od obrony
 dane_wykres = dane.sort_values(by=["Defense"])[["Attack","Defense","Sp. Atk"]].groupby(dane["Defense"]).median()
-plt.plot(dane_wykres["Defense"],dane_wykres["Sp. Atk"])
-plt.plot(dane_wykres["Defense"],dane_wykres["Attack"])
+plt.plot(dane_wykres.index,dane_wykres["Sp. Atk"])
+plt.plot(dane_wykres.index,dane_wykres["Attack"])
 plt.xlabel("Wartość obrony")
 plt.ylabel("Wartość ataku")
 plt.legend(['atak fizyczny', 'atak specjalny'])
@@ -30,13 +30,49 @@ plt.title("Wykres zależności ataku od fizycznej obrony")
 plt.savefig("./wykresy/atk_od_obrony.jpg")
 plt.clf()
 
+#wykres zależności ataku i specjalnego ataku od obrony z podziałem osi x na mniejsze części
+dane_wykres = dane.sort_values(by=["Defense"])[["Attack","Defense","Sp. Atk"]]
+slices = []
+for i in range(100):
+	procent = dane_wykres.iloc[0 + int((0.01*i)*len(dane_wykres)):int((0.01*(i+1))*len(dane_wykres))-1]
+	p = procent.copy()
+	p["Defense"] = round(p["Defense"].mean())
+	slices.append(p)
+dane_wykres = pd.concat(slices)
+dane_wykres = dane_wykres.groupby(dane_wykres["Defense"]).mean()
+plt.plot(dane_wykres.index,dane_wykres["Sp. Atk"])
+plt.plot(dane_wykres.index,dane_wykres["Attack"])
+plt.xlabel("Wartość obrony")
+plt.ylabel("Wartość ataku")
+plt.legend(["atak fizyczny", "atak specjalny"])
+plt.title("Wykres zależności ataku od fizycznej obrony z krokiem 1%")
+plt.savefig("./wykresy/atk_od_obrony_ladniejszy.jpg")
+plt.clf()
+
 #wykres zależności specjalnego ataku od fizycznego ataku
 dane_wykres = dane.sort_values(by=["Attack"])[["Sp. Atk","Attack"]].groupby(dane["Attack"]).median()
 plt.plot(dane_wykres["Attack"],dane_wykres["Sp. Atk"])
-plt.xlabel("Atak fizyczny")
-plt.ylabel("Atak specjalny")
+plt.xlabel("Wartość ataku fizycznego")
+plt.ylabel("Wartość ataku specjalnego")
 plt.title("Wykres zależności ataku fizycznego od ataku specjalnego")
 plt.savefig("./wykresy/atk_od_spatk.jpg")
+plt.clf()
+
+#wykres zależności ataku ataku fizycznego od specjalnego z podziałem osi x na mniejsze części
+dane_wykres = dane.sort_values(by=["Attack"])[["Sp. Atk", "Attack"]]
+slices = []
+for i in range(100):
+	procent = dane_wykres.iloc[0 + int((0.01*i)*len(dane_wykres)):int((0.01*(i+1))*len(dane_wykres))-1]
+	p = procent.copy()
+	p["Attack"] = round(p["Attack"].mean())
+	slices.append(p)
+dane_wykres = pd.concat(slices)
+dane_wykres = dane_wykres.groupby(dane_wykres["Attack"]).mean()
+plt.plot(dane_wykres.index,dane_wykres["Sp. Atk"])
+plt.xlabel("Wartość ataku fizycznego")
+plt.ylabel("Wartość ataku specjalnego")
+plt.title("Wykres zależności ataku fizycznego od ataku specjalnego z krokiem 1%")
+plt.savefig("./wykresy/atk_od_spatk_ladniejszy.jpg")
 plt.clf()
 
 colors = {"Fire" : "orangered", "Water" : "aqua", "Grass" : "green", "Normal" : "lightsalmon", "Electric" : "yellow", "Bug" : "lightgreen", "Fighting" : "red", "Ground" : "khaki", "Rock" : "goldenrod", "Steel" : "silver", "Poison" : "purple", "Psychic" : "palevioletred", "Ghost" : "rebeccapurple", "Dark" : "darkslategray", "Ice" : "cyan", "Dragon" : "dodgerblue", "Fairy" : "violet", "Flying" : "azure"}
@@ -75,15 +111,15 @@ pojedyncze_typy = dane[dane["Type 2"].isna()]
 n_podwojnych = len(podwojne_typy)
 n_pojedynczych = len(pojedyncze_typy)
 
-plt.bar(["Pojedyncze typy", "Podwójne typy"], [n_pojedynczych, n_podwojnych])
+plt.bar(["Pojedynczy typ", "Podwójny typ"], [n_pojedynczych, n_podwojnych])
 plt.title("Liczba Pokemon'ów o pojedynczym i podwójnym typie")
 plt.savefig("./wykresy/liczba_pkmn_o_liczbie_typow.jpg")
 plt.clf()
 
 #wykres TSNE dla statystyk bojowych przyjmując za etykiety typ główny
 tsne = TSNE(n_components=2,).fit_transform(dane[["HP", "Attack", "Defense", "Sp. Atk", "Sp. Def", "Speed"]])
-tsne_df = pd.DataFrame({'tsne_1': tsne[:,0], 'tsne_2': tsne[:,1]})
-tsne_df['type'] = dane[["Type 1"]]
+tsne_df = pd.DataFrame({"tsne_1": tsne[:,0], "tsne_2": tsne[:,1]})
+tsne_df["type"] = dane[["Type 1"]]
 types = tsne_df.type.unique()
 for typ in types:
 	color = colors[typ]
