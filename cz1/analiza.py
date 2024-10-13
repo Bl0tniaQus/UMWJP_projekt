@@ -19,7 +19,7 @@ for typ in typy:
 plik.write("\n\n** ZLICZANIE LICZEBNOŚCI GATUNKÓW **")
 plik.write("\n\n"+dane.groupby(["Name"]).size().to_string())
 #analiza statystyk według gatunku
-plik.write("**ANALIZA STATYSTYK KAŻDEGO GATUNKU**")
+plik.write("\n\n**ANALIZA STATYSTYK KAŻDEGO GATUNKU**")
 gatunki = dane.sort_values(by=["Name"])["Name"].unique()
 for gatunek in gatunki:
 	plik.write("\n\n"+gatunek.upper())
