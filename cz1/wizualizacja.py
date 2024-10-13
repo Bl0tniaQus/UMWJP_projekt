@@ -75,7 +75,7 @@ plt.title("Wykres zależności ataku fizycznego od ataku specjalnego z krokiem 1
 plt.savefig("./wykresy/atk_od_spatk_ladniejszy.jpg")
 plt.clf()
 
-colors = {"Fire" : "orangered", "Water" : "aqua", "Grass" : "green", "Normal" : "lightsalmon", "Electric" : "yellow", "Bug" : "lightgreen", "Fighting" : "red", "Ground" : "khaki", "Rock" : "goldenrod", "Steel" : "silver", "Poison" : "purple", "Psychic" : "palevioletred", "Ghost" : "rebeccapurple", "Dark" : "darkslategray", "Ice" : "cyan", "Dragon" : "dodgerblue", "Fairy" : "violet", "Flying" : "azure"}
+colors = {"Fire" : "orangered", "Water" : "aqua", "Grass" : "green", "Normal" : "lightsalmon", "Electric" : "yellow", "Bug" : "lightgreen", "Fighting" : "red", "Ground" : "khaki", "Rock" : "goldenrod", "Steel" : "silver", "Poison" : "purple", "Psychic" : "palevioletred", "Ghost" : "rebeccapurple", "Dark" : "darkslategray", "Ice" : "lightblue", "Dragon" : "dodgerblue", "Fairy" : "violet", "Flying" : "azure"}
 
 #wykres kołowy rozkładu głównych typów
 dane_wykres = dane[["Type 1", "#"]].groupby(dane["Type 1"]).count()
