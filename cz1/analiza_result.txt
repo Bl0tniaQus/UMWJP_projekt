@@ -348,7 +348,9 @@ Weepinbell                   20
 Weezing                      20
 Wigglytuff                   20
 Zapdos                       20
-Zubat                        20**ANALIZA STATYSTYK KAŻDEGO GATUNKU**
+Zubat                        20
+
+**ANALIZA STATYSTYK KAŻDEGO GATUNKU**
 
 ABRA
 
