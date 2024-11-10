@@ -1,6 +1,6 @@
 import data_loader
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import confusion_matrix,balanced_accuracy_score, precision_score, recall_score, f1_score
+from sklearn.metrics import balanced_accuracy_score, precision_score, recall_score, f1_score
 from timeit import default_timer as timer
 
 targets = ["Type 1", "Name"]
