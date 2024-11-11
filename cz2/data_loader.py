@@ -32,4 +32,3 @@ def getData(target, test_size):
 		Y = getY_type1(dane)
 	X_train, X_test, Y_train, Y_test = train_test_split(X, Y,stratify=Y, test_size=test_size, random_state = 0)
 	return X_train, Y_train, X_test, Y_test
-	
