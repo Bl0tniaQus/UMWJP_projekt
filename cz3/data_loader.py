@@ -5,36 +5,41 @@ import random
 import numpy as np
 import os
 
-def getX(dane):
-	dane = dane[["HP", "Attack", "Defense", "Sp. Atk", "Sp. Def", "Speed", "Type 1", "Type 2", "Legendary"]]
-	
-	return X
-def getY_type1(dane):
-	return dane["Type 1"]
 def encodeTypes(X):
 	dane = pd.read_csv("./train_data.csv")
+	new_X = X.copy()
 	t1_enc = LabelEncoder()
 	t2_enc = LabelEncoder()
 	t1_enc.fit(dane["Type 1"])
 	t2_enc.fit(dane["Type 2"])
-	X["Type 1"] = t1_enc.transform(X['Type 1'])
-	X["Type 2"] = t2_enc.transform(X['Type 2'])
-	return X
+	new_X["Type 1"] = t1_enc.transform(X['Type 1'])
+	new_X["Type 2"] = t2_enc.transform(X['Type 2'])
+	return new_X
 def encodeName(Y):
 	dane = pd.read_csv("./train_data.csv")
+	new_Y = Y.copy()
 	name_enc = LabelEncoder()
 	name_enc.fit(dane["Name"])
-	Y["Name"] = name_enc.transform(Y['Name'])
-	return Y
+	new_Y["Name"] = name_enc.transform(Y['Name'])
+	return new_Y
 def decodeName(Y):
 	dane = pd.read_csv("./train_data.csv")
 	name_enc = LabelEncoder()
 	name_enc.fit(dane["Name"])
-	Y["Name"] = name_enc.inverse_transform(Y['Name'])
-	return Y
+	new_Y = Y.copy()
+	new_Y["Name"] = name_enc.inverse_transform(Y['Name'])
+	return new_Y
 def getData():
-	dane = pd.read_csv("./train_data.csv")
+	dane_oryginalne = pd.read_csv("./train_data.csv")
+	dane = dane_oryginalne.copy()
 	dane["Legendary"].astype(int)
+	dane.loc[dane["Attack"] <= 0, "Attack"] = 1
+	dane.loc[dane["HP"] <= 0, "HP"] = 1
+	dane.loc[dane["Total"] <= 0, "Total"] = 1
+	dane.loc[dane["Defense"] <= 0, "Defense"] = 1
+	dane.loc[dane["Speed"] <= 0, "Speed"] = 1
+	dane.loc[dane["Sp. Atk"] <= 0, "Sp. Atk"] = 1
+	dane.loc[dane["Sp. Def"] <= 0, "Sp. Def"] = 1
 	X = dane.copy()[["HP", "Attack", "Defense", "Sp. Atk", "Sp. Def", "Speed", "Type 1", "Type 2", "Legendary"]]
 	Y = dane.copy()[["Name"]]
 	X_train, X_test, Y_train, Y_test = train_test_split(X, Y,stratify=Y, test_size=0.2, random_state = 0)
@@ -95,19 +100,31 @@ def DataAugmenter(X,Y, n_min,n_max,v):
 	new_Y = new_Y.reset_index(drop = True)
 	return new_X, new_Y
 
-def prepareDataset(filename):
+def trainScaler(dane):
+	X = dane.copy()[["HP", "Attack", "Defense", "Sp. Atk", "Sp. Def", "Speed", "Type 1", "Type 2", "Legendary"]]
+	X = encodeTypes(X)
+	scaler = MinMaxScaler()
+	scaler.fit(X.values)
+	return scaler
+
+def readData(filename):
 	dane = pd.read_csv(filename)
 	dane["Legendary"].astype(int)
+	return dane
+def prepareDataset(dane, scaler):
 	X = dane.copy()[["HP", "Attack", "Defense", "Sp. Atk", "Sp. Def", "Speed", "Type 1", "Type 2", "Legendary"]]
 	Y = dane.copy()[["Name"]]
 	X = encodeTypes(X)
 	Y = encodeName(Y)
-	x = X.values
-	min_max_scaler = MinMaxScaler()
-	x_scaled = min_max_scaler.fit_transform(x)
+	x_scaled = scaler.transform(X.values)
 	X = pd.DataFrame(x_scaled)
 	X.columns = ["HP", "Attack", "Defense", "Sp. Atk", "Sp. Def", "Speed", "Type 1", "Type 2", "Legendary"]
 	return X, Y
+
+def predictionToDict(pred):
+	Y = pd.DataFrame(pred)
+	Y.columns = ["Name"]
+	return Y
 
 	
 	

@@ -1,6 +1,6 @@
 import data_loader
 from sklearn.svm import SVC
-from sklearn.metrics import confusion_matrix,ConfusionMatrixDisplay
+from sklearn.metrics import ConfusionMatrixDisplay
 import matplotlib.pyplot as plt
 
 targets = ["Type 1", "Name"]
