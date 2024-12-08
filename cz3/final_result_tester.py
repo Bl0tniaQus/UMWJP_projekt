@@ -1,9 +1,9 @@
 import pandas as pd
 from sklearn.metrics import accuracy_score, f1_score
 
-predicted = pd.read_csv("./test_predicted.csv")
-
-real = pd.read_csv("./test_predicted.csv")
+predicted = pd.read_csv("./wyniki_klasyfikacji.csv")
+#nazwa pliku do zmiany
+real = pd.read_csv("./wyniki_klasyfikacji.csv")
 
 f1 = f1_score(real["Name"].values,predicted["Name"].values, average="weighted")
 acc = accuracy_score(real["Name"].values,predicted["Name"].values)

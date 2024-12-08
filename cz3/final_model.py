@@ -20,6 +20,6 @@ pred_df = pd.DataFrame(Y_pred)
 pred_df.columns = ["Name"]
 pred_df = dl.decodeName(pred_df)
 
-pred_df.to_csv("./test_predicted.csv", index = False)
+pred_df.to_csv("./wyniki_klasyfikacji.csv", index = False)
 
 
