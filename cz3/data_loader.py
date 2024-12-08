@@ -113,9 +113,12 @@ def readData(filename):
 	return dane
 def prepareDataset(dane, scaler):
 	X = dane.copy()[["HP", "Attack", "Defense", "Sp. Atk", "Sp. Def", "Speed", "Type 1", "Type 2", "Legendary"]]
-	Y = dane.copy()[["Name"]]
+	if "Name" in dane.columns:
+		Y = dane.copy()[["Name"]]
+		Y = encodeName(Y)
+	else:
+		Y = pd.DataFrame()
 	X = encodeTypes(X)
-	Y = encodeName(Y)
 	x_scaled = scaler.transform(X.values)
 	X = pd.DataFrame(x_scaled)
 	X.columns = ["HP", "Attack", "Defense", "Sp. Atk", "Sp. Def", "Speed", "Type 1", "Type 2", "Legendary"]

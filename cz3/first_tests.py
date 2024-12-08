@@ -11,16 +11,13 @@ import warnings
 warnings.filterwarnings('ignore') 
 
 originalTest = dl.readData("./augmented_datasets/test.csv")
-
 train = dl.readData("./augmented_datasets/train.csv")
 scaler = dl.trainScaler(train)
 X_train, Y_train = dl.prepareDataset(train, scaler)
 test = originalTest.copy()
 X_test, Y_test = dl.prepareDataset(test, scaler)
-
 models = [DecisionTreeClassifier(), KNeighborsClassifier(), LogisticRegression(), RandomForestClassifier(), GradientBoostingClassifier(), GaussianNB(), SVC()]
 names = ["DT", "KNN", "LR", "RF", "GBC", "GNB", "SVM"]
-
 for i in range(len(models)):
 	model = models[i]
 	train_start = timer()
