@@ -5,7 +5,7 @@ import warnings
 warnings.filterwarnings('ignore') 
 
 test = dl.readData("./test_data.csv")
-train = dl.readData("./augmented_datasets/augment_train1.csv")
+train = dl.readData("./augmented_datasets/final_train.csv")
 
 scaler = dl.trainScaler(train)
 X_train, Y_train = dl.prepareDataset(train, scaler)
