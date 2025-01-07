@@ -6,6 +6,7 @@ from timeit import default_timer as timer
 from sklearn.decomposition import PCA
 from sklearn.random_projection import GaussianRandomProjection
 from sklearn.preprocessing import StandardScaler
+import numpy as np
 import warnings
 warnings.filterwarnings('ignore') 
 
@@ -26,7 +27,7 @@ for i in range(len(models)):
 	model.fit(X_train_original, Y_train)
 	train_end = timer()
 	test_start = timer()
-	Y_pred = model.predict(X_test_original)
+	Y_pred = np.round(model.predict(X_test_original))
 	test_end = timer()
 	mse = mean_squared_error(Y_test, Y_pred)
 	r2 = r2_score(Y_test, Y_pred)
@@ -51,7 +52,7 @@ for dim in range(1, len(X_train_original.columns)):
 		model.fit(X_train, Y_train)
 		train_end = timer()
 		test_start = timer()
-		Y_pred = model.predict(X_test)
+		Y_pred = np.round(model.predict(X_test))
 		test_end = timer()
 		mse = mean_squared_error(Y_test, Y_pred)
 		r2 = r2_score(Y_test, Y_pred)
@@ -78,7 +79,7 @@ for dim in range(1, len(X_train_original.columns)):
 		model.fit(X_train, Y_train)
 		train_end = timer()
 		test_start = timer()
-		Y_pred = model.predict(X_test)
+		Y_pred = np.round(model.predict(X_test))
 		test_end = timer()
 		mse = mean_squared_error(Y_test, Y_pred)
 		r2 = r2_score(Y_test, Y_pred)
