@@ -26,6 +26,3 @@ for i in range(len(models)):
 	mse = mean_squared_error(Y_test, Y_pred)
 	r2 = r2_score(Y_test, Y_pred)
 	print(f"{names[i]}: MSE: {mse}; R2: {r2}; training_time: {(train_end - train_start):.3f}; testing_time: {(test_end - test_start):.3f}")
-
-print(Y_pred)
-

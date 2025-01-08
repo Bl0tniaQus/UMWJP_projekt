@@ -159,7 +159,7 @@ def trainStandardScaler(dane):
 def trainStandardScalerHPRegression(dane):
 	X = dane.copy()[["Attack", "Defense", "Sp. Atk", "Sp. Def", "Speed", "Type 1", "Type 2", "Legendary"]]
 	X = encodeTypes(X)
-	scaler = MinMaxScaler()
+	scaler = StandardScaler()
 	scaler.fit(X.values)
 	return scaler	
 	

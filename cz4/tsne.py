@@ -26,12 +26,8 @@ for i in range(len(names)):
 	color = colors[i]
 	dane_wykres = tsne_df[tsne_df["Name"] == names[i]]
 	plt.scatter(x = dane_wykres[["tsne_1"]], y = dane_wykres[["tsne_2"]], c = [color for i in range(len(dane_wykres))])
+plt.title("Redukcja t-SNE do 2D")
 plt.show()
-
-
-
-
-
 tsne = TSNE(n_components=3,).fit_transform(X)
 tsne_df = pd.DataFrame({"tsne_1": tsne[:,0], "tsne_2": tsne[:,1],  "tsne_3": tsne[:,2]})
 tsne_df["Name"] = Y["Name"]
@@ -41,5 +37,6 @@ for i in range(len(names)):
 	color = colors[i]
 	dane_wykres = tsne_df[tsne_df["Name"] == names[i]]
 	ax.scatter(xs = dane_wykres[["tsne_1"]], ys = dane_wykres[["tsne_2"]], zs = dane_wykres[["tsne_3"]], c = [color for i in range(len(dane_wykres))])
+plt.title("Redukcja t-SNE do 3D")
 plt.show()
 plt.clf()

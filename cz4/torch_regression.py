@@ -4,6 +4,7 @@ from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.neural_network import MLPRegressor
 import matplotlib.pyplot as plt
 import warnings
+from timeit import default_timer as timer
 warnings.filterwarnings('ignore') 
 class regressor(torch.nn.Module):
 	def __init__(self):
@@ -53,13 +54,18 @@ X_train, Y_train = dl.prepareDatasetHPRegression(train, scaler)
 test = originalTest.copy()
 X_test, Y_test = dl.prepareDatasetHPRegression(test, scaler)	
 model = regressor()
+train_start = timer()
 model.fit(X_train,Y_train,10000)
+train_end = timer()
+
 X_test = torch.from_numpy(X_test.values)
 X_test = X_test.to(torch.float32)
+test_start = timer()
 Y_pred = model.predict(X_test).data.numpy()
+test_end = timer()
 MSE = mean_squared_error(Y_pred, Y_test)
 R2 = r2_score(Y_pred, Y_test)
-print(f"Pytorch -  MSE: {MSE}; R2: {R2}")
+print(f"Pytorch -  MSE: {MSE}; R2: {R2}; train time: {train_end - train_start}; test time: {test_end - test_start};")
 # ~ plt.plot(model.losses)
 # ~ plt.show()
 
