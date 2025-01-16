@@ -2,3 +2,4 @@ venv/
 *.geany
 *__pycache__
 *.pdf
+cz5/data/*
