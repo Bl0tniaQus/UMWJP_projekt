@@ -31,6 +31,7 @@ class classifier(torch.nn.Module):
 		mean = [0.485, 0.456, 0.406]
 		std = [0.229, 0.224, 0.225]
 		self.transform = transforms.Compose([transforms.Resize((256, 256)), transforms.CenterCrop(224), transforms.ToTensor(), transforms.Normalize(mean = mean, std = std)])
+		self.augment = transforms.Compose([transforms.Resize((256, 256)), transforms.RandomResizedCrop(224), transforms.RandomVerticalFlip(), transforms.RandomHorizontalFlip(), transforms.RandomRotation(degrees = 45), transforms.ColorJitter(), transforms.ToTensor(), transforms.Normalize(mean = mean, std = std)])
 		self.losses = []
 	def forward(self, x):
 		return self.network(x)
@@ -48,12 +49,19 @@ class classifier(torch.nn.Module):
 				x.append(image)
 		if data=="train":
 			x = []
-			y = self.ytrain[ids]
-			for path in self.xtrain[ids]:
-				image = Image.open(path).convert("RGB")
+			y = []
+			for path in range(len(self.xtrain[ids])):
+				or_image = Image.open(self.xtrain[ids][path]).convert("RGB")
+				image = or_image.copy()
 				image = self.transform(image)
 				x.append(image)
-			return torch.stack(x), torch.from_numpy(y)
+				y.append(self.ytrain[ids][path])
+				for i in range(5):
+					image = or_image.copy()
+					image = self.augment(image)
+					x.append(image)
+					y.append(self.ytrain[ids][path]) 
+			return torch.stack(x), torch.from_numpy(np.array(y))
 		return torch.stack(x).to(torch.float32), torch.from_numpy(np.array(y))
 	def fit(self, x, y, xval, yval, n_iter):
 		batch_size = 15
@@ -113,14 +121,15 @@ def Train():
 	Y_val = encoder.transform(Y_val)
 	Y_train = encoder.transform(Y_train)
 	model = classifier()
-	model.fit(X_train, Y_train, X_val, Y_val, 5)
+	model.fit(X_train, Y_train, X_val, Y_val, 20)
 	
-	model_pickle = open("model1_pickle", "wb")
+	model_pickle = open("model2_pickle", "wb")
 
 	pickle.dump(model, model_pickle)
 
 	model_pickle.close()
 # ~ Train()
+
 
 
 
