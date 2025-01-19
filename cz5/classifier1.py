@@ -60,6 +60,7 @@ class classifier(torch.nn.Module):
 		batch_size_val = 83
 		self.losses = []
 		self.losses_val = []
+		self.accuracies = []
 		loss_function = torch.nn.CrossEntropyLoss()
 		optimizer = torch.optim.Adam(self.parameters())
 		self.xtrain = np.array(x)
@@ -82,11 +83,19 @@ class classifier(torch.nn.Module):
 				optimizer.zero_grad()
 				loss.backward()
 				optimizer.step()
+			pred = []
 			for j in range(0, len(self.xval) // batch_size_val):
 				x, y = self.loadBatch(slice(batch_size_val*j , (batch_size_val * j) + (batch_size_val)), "val")
 				output = self.forward(x)
 				loss = loss_function(output, y)
 				batch_losses_val.append(loss.detach().numpy())
+				p = self.predict(x)
+				if len(pred)==0:
+					pred = p
+				else:
+					pred = np.hstack((pred, p))
+			acc = accuracy_score(pred, yval)
+			self.accuracies.append(acc*100)
 			self.losses.append(np.mean(batch_losses))
 			self.losses_val.append(np.mean(batch_losses_val))
 			
@@ -113,14 +122,13 @@ def Train():
 	Y_val = encoder.transform(Y_val)
 	Y_train = encoder.transform(Y_train)
 	model = classifier()
-	model.fit(X_train, Y_train, X_val, Y_val, 5)
+	model.fit(X_train, Y_train, X_val, Y_val, 20)
 	
 	model_pickle = open("model1_pickle", "wb")
 
 	pickle.dump(model, model_pickle)
 
 	model_pickle.close()
-# ~ Train()
 
 
 

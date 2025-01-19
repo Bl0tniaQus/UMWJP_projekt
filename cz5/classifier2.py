@@ -56,7 +56,7 @@ class classifier(torch.nn.Module):
 				image = self.transform(image)
 				x.append(image)
 				y.append(self.ytrain[ids][path])
-				for i in range(5):
+				for i in range(2):
 					image = or_image.copy()
 					image = self.augment(image)
 					x.append(image)
@@ -68,6 +68,7 @@ class classifier(torch.nn.Module):
 		batch_size_val = 83
 		self.losses = []
 		self.losses_val = []
+		self.accuracies = []
 		loss_function = torch.nn.CrossEntropyLoss()
 		optimizer = torch.optim.Adam(self.parameters())
 		self.xtrain = np.array(x)
@@ -90,11 +91,19 @@ class classifier(torch.nn.Module):
 				optimizer.zero_grad()
 				loss.backward()
 				optimizer.step()
+			pred = []
 			for j in range(0, len(self.xval) // batch_size_val):
 				x, y = self.loadBatch(slice(batch_size_val*j , (batch_size_val * j) + (batch_size_val)), "val")
 				output = self.forward(x)
 				loss = loss_function(output, y)
 				batch_losses_val.append(loss.detach().numpy())
+				p = self.predict(x)
+				if len(pred)==0:
+					pred = p
+				else:
+					pred = np.hstack((pred, p))
+			acc = accuracy_score(pred, yval)
+			self.accuracies.append(acc*100)
 			self.losses.append(np.mean(batch_losses))
 			self.losses_val.append(np.mean(batch_losses_val))
 			
@@ -128,7 +137,7 @@ def Train():
 	pickle.dump(model, model_pickle)
 
 	model_pickle.close()
-# ~ Train()
+
 
 
 

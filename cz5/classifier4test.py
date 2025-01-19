@@ -7,7 +7,7 @@ from torchvision import transforms
 import matplotlib.pyplot as plt
 from timeit import default_timer as timer
 import numpy as np
-from classifier1 import classifier, Train
+from classifier4 import classifier, Train
 import warnings
 from PIL import Image
 from sklearn.metrics import confusion_matrix
@@ -16,7 +16,7 @@ warnings.filterwarnings('ignore')
 Train()
 x_file = open('X_test_pickle', 'rb')
 y_file = open('Y_test_pickle', 'rb')
-model_file = open('model1_pickle', 'rb')
+model_file = open('model4_pickle', 'rb')
 labels_file = open('labels_pickle', 'rb')
 X_test = pickle.load(x_file)
 Y_test = pickle.load(y_file)
@@ -42,6 +42,8 @@ for i in range(0, len(y) // batch_size):
 	for path in X_test[slice(i*batch_size, i*batch_size + batch_size)]:
 		image = Image.open(path).convert("RGB")
 		image = transform(image)
+		#print(model.forward(image.unsqueeze(0)))
+		#a = input()
 		x.append(image)
 	pred = model.predict(torch.stack(x))
 	if i == 0:
@@ -59,12 +61,11 @@ print(f"Accuracy: {(accuracy * 100):.3f}")
 print(f"f1: {(f1 * 100):.3f}")
 
 cm = pd.DataFrame(confusion_matrix(Y_test, Y_pred))
-
 labels_frame = pd.DataFrame(encoder.inverse_transform(np.unique(y)))
 labels_frame.columns = ["Name"]
 cm.columns = labels_frame["Name"].values
 cm.insert(0, " ", labels_frame["Name"].values)
-cm.to_csv(f"./cm.csv", index = False)
+cm.to_csv(f"./cm4.csv", index = False)
 
 plt.plot(model.losses)
 plt.show()

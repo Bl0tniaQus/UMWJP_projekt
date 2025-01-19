@@ -4,6 +4,7 @@ import pickle
 from torchvision import transforms
 from sklearn.model_selection import train_test_split
 import torch
+import pandas as pd
 from PIL import Image
 def getLabels():
 	return [label.name for label in os.scandir("data")]
@@ -33,7 +34,9 @@ X_test, X_val, Y_test, Y_val = train_test_split(X_rest, Y_rest,stratify=Y_rest, 
 print(len(X_train))
 print(len(X_test))
 print(len(X_val))
-
+all_labels_frame = pd.DataFrame(labels)
+df = all_labels_frame.value_counts().to_string()
+print(df)
 labels_file = open("labels_pickle", "wb")
 X_train_file = open("X_train_pickle", "wb")
 Y_train_file = open("Y_train_pickle", "wb")

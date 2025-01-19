@@ -7,13 +7,13 @@ from torchvision import transforms
 import matplotlib.pyplot as plt
 from timeit import default_timer as timer
 import numpy as np
-from classifier2 import classifier
+from classifier2 import classifier, Train
 import warnings
 from PIL import Image
 from sklearn.metrics import confusion_matrix
 import pandas as pd
 warnings.filterwarnings('ignore')
-
+# ~ Train()
 x_file = open('X_test_pickle', 'rb')
 y_file = open('Y_test_pickle', 'rb')
 model_file = open('model2_pickle', 'rb')
@@ -59,16 +59,15 @@ print(f"Accuracy: {(accuracy * 100):.3f}")
 print(f"f1: {(f1 * 100):.3f}")
 
 cm = pd.DataFrame(confusion_matrix(Y_test, Y_pred))
-all_labels_frame = pd.DataFrame(labels)
-df = all_labels_frame.value_counts().to_string()
-print(df)
 labels_frame = pd.DataFrame(encoder.inverse_transform(np.unique(y)))
 labels_frame.columns = ["Name"]
 cm.columns = labels_frame["Name"].values
 cm.insert(0, " ", labels_frame["Name"].values)
-cm.to_csv(f"./cm.csv", index = False)
+cm.to_csv(f"./cm2.csv", index = False)
 
 plt.plot(model.losses)
 plt.show()
 plt.plot(model.losses_val)
+plt.show()
+plt.plot(model.accuracies)
 plt.show()

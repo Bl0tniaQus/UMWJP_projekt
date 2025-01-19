@@ -14,10 +14,11 @@ warnings.filterwarnings('ignore')
 class classifier(torch.nn.Module):
 	def __init__(self):
 		super().__init__()
-		self.network = models.mobilenet_v2(pretrained = True)
+		self.network = models.googlenet(pretrained = True)
 		for param in self.network.parameters():
 			param.requires_grad = False	
-		self.network.classifier = torch.nn.Sequential(torch.nn.Linear(1280,142))
+		self.network.dropout = torch.nn.Identity()
+		self.network.fc = torch.nn.Linear(1024,142)
 		mean = [0.485, 0.456, 0.406]
 		std = [0.229, 0.224, 0.225]
 		self.transform = transforms.Compose([transforms.Resize((256, 256)), transforms.CenterCrop(224), transforms.ToTensor(), transforms.Normalize(mean = mean, std = std)])
@@ -122,7 +123,7 @@ def Train():
 	model = classifier()
 	model.fit(X_train, Y_train, X_val, Y_val, 5)
 	
-	model_pickle = open("model3_pickle", "wb")
+	model_pickle = open("model4_pickle", "wb")
 
 	pickle.dump(model, model_pickle)
 
