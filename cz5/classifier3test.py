@@ -1,7 +1,7 @@
 import pickle
 from sklearn.model_selection import train_test_split
 import torch
-from sklearn.metrics import accuracy_score, f1_score
+from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 from sklearn.preprocessing import LabelEncoder
 from torchvision import transforms
 import matplotlib.pyplot as plt
@@ -57,8 +57,12 @@ print(len(y))
 #Y_pred = model.predict(x)
 accuracy = accuracy_score(y, Y_pred)
 f1 = f1_score(Y_test, Y_pred, average="weighted")
+recall = recall_score(Y_test, Y_pred, average="weighted")
+precision = precision_score(Y_test, Y_pred, average="weighted")
 print(f"Accuracy: {(accuracy * 100):.3f}")
 print(f"f1: {(f1 * 100):.3f}")
+print(f"Recall: {(recall * 100):.3f}")
+print(f"Precision: {(precision * 100):.3f}")
 
 cm = pd.DataFrame(confusion_matrix(Y_test, Y_pred))
 labels_frame = pd.DataFrame(encoder.inverse_transform(np.unique(y)))
@@ -67,9 +71,22 @@ cm.columns = labels_frame["Name"].values
 cm.insert(0, " ", labels_frame["Name"].values)
 cm.to_csv(f"./cm3.csv", index = False)
 
+plt.subplot(1, 2, 1)
 plt.plot(model.losses)
-plt.show()
+plt.title("Wykres średniego błędu serii w czasie [dane uczące]")
+plt.xlabel("Czas [epoka]")
+plt.ylabel("Cross Entropy Loss")
+plt.xticks(range(0,5), labels = range(1,6))
+plt.subplot(1, 2, 2)
 plt.plot(model.losses_val)
+plt.title("Wykres średniego błędu serii w czasie [dane walidacyjne]")
+plt.xlabel("Czas [epoka]")
+plt.ylabel("Cross Entropy Loss")
+plt.xticks(range(0,5), labels = range(1,6))
 plt.show()
 plt.plot(model.accuracies)
+plt.title("Zależność skuteczności klasyfikacji danych walidacyjnych od czasu")
+plt.xlabel("Czas [epoka]")
+plt.ylabel("Skuteczność [%]")
+plt.xticks(range(0,5), labels = range(1,6))
 plt.show()

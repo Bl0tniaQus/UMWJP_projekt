@@ -25,7 +25,6 @@ for label in labels:
 			pass
 	Y = Y + [label for _ in range(species_count)]
 
-print(len(Y))
 print(len(images))
 
 X_train, X_rest, Y_train, Y_rest = train_test_split(images, Y,stratify=Y, test_size=0.25, random_state = 0)
@@ -34,9 +33,8 @@ X_test, X_val, Y_test, Y_val = train_test_split(X_rest, Y_rest,stratify=Y_rest, 
 print(len(X_train))
 print(len(X_test))
 print(len(X_val))
-all_labels_frame = pd.DataFrame(labels)
-df = all_labels_frame.value_counts().to_string()
-print(df)
+all_labels_frame = pd.DataFrame(Y)
+print(all_labels_frame.value_counts())
 labels_file = open("labels_pickle", "wb")
 X_train_file = open("X_train_pickle", "wb")
 Y_train_file = open("Y_train_pickle", "wb")

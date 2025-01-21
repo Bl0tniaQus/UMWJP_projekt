@@ -7,16 +7,16 @@ from torchvision import transforms
 import matplotlib.pyplot as plt
 from timeit import default_timer as timer
 import numpy as np
-from classifier2 import classifier, Train
+from classifier5 import classifier, Train
 import warnings
 from PIL import Image
 from sklearn.metrics import confusion_matrix
 import pandas as pd
 warnings.filterwarnings('ignore')
-# ~ Train()
+Train()
 x_file = open('X_test_pickle', 'rb')
 y_file = open('Y_test_pickle', 'rb')
-model_file = open('model2_pickle', 'rb')
+model_file = open('model5_pickle', 'rb')
 labels_file = open('labels_pickle', 'rb')
 X_test = pickle.load(x_file)
 Y_test = pickle.load(y_file)
@@ -42,6 +42,8 @@ for i in range(0, len(y) // batch_size):
 	for path in X_test[slice(i*batch_size, i*batch_size + batch_size)]:
 		image = Image.open(path).convert("RGB")
 		image = transform(image)
+		#print(model.forward(image.unsqueeze(0)))
+		#a = input()
 		x.append(image)
 	pred = model.predict(torch.stack(x))
 	if i == 0:
@@ -67,24 +69,6 @@ labels_frame = pd.DataFrame(encoder.inverse_transform(np.unique(y)))
 labels_frame.columns = ["Name"]
 cm.columns = labels_frame["Name"].values
 cm.insert(0, " ", labels_frame["Name"].values)
-cm.to_csv(f"./cm2.csv", index = False)
+cm.to_csv(f"./cm5.csv", index = False)
 
-plt.subplot(1, 2, 1)
-plt.plot(model.losses)
-plt.title("Wykres średniego błędu serii w czasie [dane uczące]")
-plt.xlabel("Czas [epoka]")
-plt.ylabel("Cross Entropy Loss")
-plt.xticks(range(0,20), labels = range(1,21))
-plt.subplot(1, 2, 2)
-plt.plot(model.losses_val)
-plt.title("Wykres średniego błędu serii w czasie [dane walidacyjne]")
-plt.xlabel("Czas [epoka]")
-plt.ylabel("Cross Entropy Loss")
-plt.xticks(range(0,20), labels = range(1,21))
-plt.show()
-plt.plot(model.accuracies)
-plt.title("Zależność skuteczności klasyfikacji danych walidacyjnych od czasu")
-plt.xlabel("Czas [epoka]")
-plt.ylabel("Skuteczność [%]")
-plt.xticks(range(0,20), labels = range(1,21))
-plt.show()
+
