@@ -41,11 +41,6 @@ class classifier(torch.nn.Module):
 			image = self.transform(image)
 			x.append(image)
 			y.append(self.ytrain[ids][path])
-			for i in range(2):
-				image = or_image.copy()
-				image = self.augment(image)
-				x.append(image)
-				y.append(self.ytrain[ids][path]) 
 		return torch.stack(x), torch.from_numpy(np.array(y))
 		return torch.stack(x).to(torch.float32), torch.from_numpy(np.array(y))
 	def fit(self, x, y):
@@ -88,7 +83,7 @@ def Train():
 	model = classifier()
 	model.fit(X_train, Y_train)
 	
-	model_pickle = open("model5_pickle", "wb")
+	model_pickle = open("model6_pickle", "wb")
 
 	pickle.dump(model, model_pickle)
 

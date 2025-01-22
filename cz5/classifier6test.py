@@ -7,7 +7,7 @@ from torchvision import transforms
 import matplotlib.pyplot as plt
 from timeit import default_timer as timer
 import numpy as np
-from classifier5 import classifier, Train
+from classifier6 import classifier, Train
 import warnings
 from PIL import Image
 from sklearn.metrics import confusion_matrix
@@ -16,7 +16,7 @@ warnings.filterwarnings('ignore')
 # ~ Train()
 x_file = open('X_test_pickle', 'rb')
 y_file = open('Y_test_pickle', 'rb')
-model_file = open('model5_pickle', 'rb')
+model_file = open('model6_pickle', 'rb')
 labels_file = open('labels_pickle', 'rb')
 X_test = pickle.load(x_file)
 Y_test = pickle.load(y_file)
@@ -69,6 +69,6 @@ labels_frame = pd.DataFrame(encoder.inverse_transform(np.unique(y)))
 labels_frame.columns = ["Name"]
 cm.columns = labels_frame["Name"].values
 cm.insert(0, " ", labels_frame["Name"].values)
-cm.to_csv(f"./cm5.csv", index = False)
+cm.to_csv(f"./cm6.csv", index = False)
 
 
